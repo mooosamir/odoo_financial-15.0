@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+
+<odoo>
+    <function name="carrier_reference_update_template_base" model="account.edi.format"/>
+</odoo>

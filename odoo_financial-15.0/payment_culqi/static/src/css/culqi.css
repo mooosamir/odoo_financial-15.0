@@ -1,0 +1,51 @@
+.payment{
+  background: #f8f8f8;
+  margin: 80px auto;
+  height: auto;
+  padding: 35px;
+  padding-top: 70px;
+  border-radius: 5px;
+  position: relative;
+}
+
+.payment h2{
+  text-align: center;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  color: #0d3c61;
+}
+
+.payment-logo{
+  position: absolute;
+  top: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 100px;
+  background: #f8f8f8;
+  border-radius: 50%;
+  box-shadow: 0 0 5px rgba(0,0,0,0.2);
+  text-align: center;
+  line-height: 85px;
+}
+
+.payment-logo:before{
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 90px;
+  height: 90px;
+  background: #2196F3;
+  border-radius: 50%;
+}
+
+.payment-logo p{
+  position: relative;
+  color: #f8f8f8;
+  font-family: 'Baloo Bhaijaan', cursive;
+  font-size: 58px;
+}
+.payment-form {
+	padding: 6px;
+}

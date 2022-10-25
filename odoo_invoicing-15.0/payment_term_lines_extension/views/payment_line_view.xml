@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_payment_term_line_form_inherit" model="ir.ui.view">
+        <field name="name">account.payment.term.line.form.extension</field>
+        <field name="model">account.payment.term.line</field>
+        <field name="inherit_id" ref="account.view_payment_term_line_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('o_row')]" position="after">
+                <br/>
+                <div attrs="{'invisible':[('value','=', 'balance')]}" class="o_row">
+                    <label
+                            for="factor_round"
+                            attrs="{'invisible':[('value','=', 'balance')]}"
+                    />
+                    <field
+                            name="factor_round"
+                            attrs="{'invisible':[('value','=','balance')]}"
+                    />
+                </div>
+            </xpath>
+
+            <xpath expr="//field[@name='sequence']" position="after">
+
+                <div attrs="{'invisible':[('value','=', 'balance')]}">
+                    <br/>
+                    <h2>Cuentas contables</h2>
+                    <field name="term_extension">
+                        <tree string="probando" editable="bottom">
+                            <field name="currency" style="width: 100px !important"/>
+                            <field name="ledger_account"
+                                   domain="[('related_user_account_name','in', ('Por cobrar', 'Activos Circulantes'))]"
+                                   filter_domain="[('related_user_account_name','in', ('Por cobrar', 'Activos Circulantes'))]"
+                                   style="width: 1000px !important"/>
+
+                            <field name="ledger_account_payable"
+                                   domain="[('related_user_account_name','in', ('Por pagar', 'Pasivos Circulantes', 'A pagar', 'Pasivo circulantes'))]"
+                                   filter_domain="[('related_user_account_name','in', ('Por pagar', 'Pasivos Circulantes', 'A pagar', 'Pasivo circulantes'))]"
+                                   style="width: 500px !important"/>
+                        </tree>
+                    </field>
+                    <br/>
+                </div>
+
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>
+

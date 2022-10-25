@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<odoo>
+
+    <template id="pe_ubl_2_1_invoice_body_inherit_l10n_pe_edocument_carrier_ref"
+              inherit_id="l10n_pe_edi.pe_ubl_2_1_common">
+
+        <xpath expr="//*[name()='cac:Signature']" position="before">
+            <t xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2"
+               xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+
+                <t t-if="record.carrier_ref_number and not record.exist_advance">
+                    <cac:DespatchDocumentReference>
+                        <cbc:ID t-esc="(str(record.carrier_ref_number).replace(' ', ''))[:30]"/>
+                        <cbc:DocumentTypeCode listAgencyName="PE:SUNAT"
+                                              listName="Tipo de Documento"
+                                              listURI="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo01">09</cbc:DocumentTypeCode>
+                    </cac:DespatchDocumentReference>
+                </t>
+            </t>
+        </xpath>
+    </template>
+
+</odoo>

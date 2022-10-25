@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="token_culqi_form">
+        <t t-call="website.layout">
+            <t t-set="additional_title">Culqi</t>
+            <div id="wrap">
+                <div class="row">
+                    <div class="payment">
+                        <div class="payment-logo">
+                            <p>
+                                <img src="/payment_culqi/static/src/img/culqi_icon.png" width="50px"/>
+                            </p>
+                        </div>
+                        <h2>Formulario de Pago Culqi</h2>
+                        <div class="card-wrapper"/>
+
+                        <form t-att-action="data_url" class="needs-validation" method="post" target="_self" name="o_culqi_form">
+                            <input type="hidden" name="transaction" t-att-value="data_transaction"/>
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                           
+                            <div class="row payment-form" name="card_number_div">
+                                <div class="col">
+                                    <div class="input-group">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-credit-card"/>
+                                        </div>
+                                        <input type="tel" class="form-control" name="number" placeholder="Card number" required=""/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row payment-form" name="expiry_cvv_div">
+                                <div class="col">
+                                    <div class="input-group">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-calendar"/>
+                                        </div>
+                                        <input type="tel" class="form-control" name="expiry" placeholder="MM/YY" required="" maxlength="7"/>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="input-group">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-lock"/>
+                                        </div>
+                                        <input type="number" class="form-control" name="cvc" placeholder="CVV" required=""/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row payment-form" name="name_mail_div">
+                                <div class="col">
+                                    <div class="input-group">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-credit-card"/>
+                                        </div>
+                                        <input type="text" class="form-control" name="name" placeholder="Full name" required="" t-att-value="default_partner_name"/>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">@</span>
+                                        </div>
+                                        <input type="email" class="form-control" name="email" placeholder="admin@example.com" required="" t-att-value="default_partner_mail"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="float-left mt-2">
+                                <a id="callback_culqi" role="button" t-att-href="'{}'.format(base_url)"
+                                   class="btn btn-secondary mb32">
+                                    <span>Volver</span>
+                                    <i class="fa fa-chevron-left"/>
+                                </a>
+                            </div>
+                            <div class="float-right mt-2">
+                                <button type="submit" id="culqi_pay_button" class="btn btn-primary float-right">
+                                    <t t-esc="amount_value"/>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="redirect_form">
+        <form t-att-action="api_url" method="post">
+            <input type="hidden" name="acquirer_reference" t-att-value="item_name"/>
+            <input type="hidden" name="amount" t-att-value="amount"/>
+            <input type="hidden" name='reference' t-att-value='reference'/>
+            <input type="hidden" name="currency" t-att-value="currency_code"/>
+        </form>
+    </template>
+    
+</odoo>

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="transfer_type_codes_01" model="transfer.type.codes">
+            <field name="description">Transporte público</field>
+            <field name="code">01</field>
+        </record>
+
+        <record id="transfer_type_codes_02" model="transfer.type.codes">
+            <field name="description">Transporte privado</field>
+            <field name="code">02</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_partner_form_view_inherit_fix_address_street_number" model="ir.ui.view">
+        <field name="name">res.partner.form.view.inherit.fix_address_street_number</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="l10n_pe.pe_partner_address_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='street']" position="after">
+                <field name="l10n_pe_district" invisible="1" />
+                <field name="street2" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

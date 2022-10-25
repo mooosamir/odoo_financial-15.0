@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--transfer.reason.codes-->
+    <record id="transfer_reason_codes_form_view" model="ir.ui.view">
+        <field name="name">transfer.reason.codes.form.view</field>
+        <field name="model">transfer.reason.codes</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="code"/>
+                        <field name="description"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="transfer_reason_codes_tree_view" model="ir.ui.view">
+        <field name="name">transfer.reason.codes.tree.view</field>
+        <field name="model">transfer.reason.codes</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="code"/>
+                <field name="description"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_transfer_reason_codes" model="ir.actions.act_window">
+        <field name="name">[20] Códigos de motivo de Traslado</field>
+        <field name="res_model">transfer.reason.codes</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="catalog_transfer_reason_codes_menu_localization"
+              name="[20] Códigos de motivo de Traslado"
+              parent="catalogos_sunat_menu_localization"
+              sequence="20"
+              action="action_transfer_reason_codes"
+    />
+
+</odoo>

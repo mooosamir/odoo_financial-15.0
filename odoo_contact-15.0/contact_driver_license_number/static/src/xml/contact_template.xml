@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <template id="report_delivery_document_inherit_contact_driver_license_number" inherit_id="stock.report_delivery_document">
+        <xpath expr="//table[@name='stock_move_table']/parent::div" position="before">
+            <t t-if="o.driver_id">
+                <span name="span_driver_id">
+                    <strong>Conductor:</strong>
+                    <span t-field="o.driver_id.name"/> con Tipo de documento <span t-field="o.driver_id.l10n_latam_identification_type_id.name"/> N° <span t-field="o.driver_id.vat"/> N° Licencia <span t-field="o.driver_id.number_license"/>
+                </span>
+                <br/>
+            </t>
+        </xpath>
+    </template>
+
+</odoo>
+
+

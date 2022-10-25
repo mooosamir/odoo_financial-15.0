@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="line_caret_options_inherit_checkout_balance" inherit_id="account_reports.line_caret_options">
+        <xpath expr="//li[last()]" position="after">
+            <li t-if="line['caret_options'] == 'account.group'">
+                <a role="menuitem" tabindex="-1" t-att-data-id="line['id']" action="open_account_group" class="dropdown-item">Abrir Grupo de cuenta</a>
+            </li>
+        </xpath>
+    </template>
+
+    <record id="action_account_report_checkout_balance" model="ir.actions.client">
+        <field name="name">Comprobación x Cuenta</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'model': 'account.checkout.balance.report'}"/>
+    </record>
+
+    <menuitem id="menu_action_account_report_checkout_balance"
+              name="Comprobación x Cuenta"
+              action="checkout_balance.action_account_report_checkout_balance"
+              parent="account_reports.account_reports_audit_reports_menu"
+              groups="account.group_account_user"
+    />
+
+</odoo>

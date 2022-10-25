@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--transfer.type.codes-->
+    <record id="transfer_type_codes_form_view" model="ir.ui.view">
+        <field name="name">transfer.type.codes.form.view</field>
+        <field name="model">transfer.type.codes</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="code"/>
+                        <field name="description"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="transfer_type_codes_tree_view" model="ir.ui.view">
+        <field name="name">transfer.type.codes.tree.view</field>
+        <field name="model">transfer.type.codes</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="code"/>
+                <field name="description"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_transfer_type_codes" model="ir.actions.act_window">
+        <field name="name">[18] Códigos de modalidad de Traslado</field>
+        <field name="res_model">transfer.type.codes</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="catalog_transfer_type_codes_menu_localization"
+              name="[18] Códigos de modalidad de Traslado"
+              parent="catalogos_sunat_menu_localization"
+              sequence="18"
+              action="action_transfer_type_codes"
+    />
+
+</odoo>

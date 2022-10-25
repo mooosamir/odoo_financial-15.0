@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="transfer_reason_codes_01" model="transfer.reason.codes">
+            <field name="description">Venta</field>
+            <field name="code">01</field>
+        </record>
+
+        <record id="transfer_reason_codes_14" model="transfer.reason.codes">
+            <field name="description">Venta sujeta a confirmación del comprador</field>
+            <field name="code">14</field>
+        </record>
+
+        <record id="transfer_reason_codes_02" model="transfer.reason.codes">
+            <field name="description">Compra</field>
+            <field name="code">02</field>
+        </record>
+
+        <record id="transfer_reason_codes_04" model="transfer.reason.codes">
+            <field name="description">Translado entre establecimientos de la misma empresa</field>
+            <field name="code">04</field>
+        </record>
+
+        <record id="transfer_reason_codes_18" model="transfer.reason.codes">
+            <field name="description">Translado emisor itinerante CP</field>
+            <field name="code">18</field>
+        </record>
+
+        <record id="transfer_reason_codes_08" model="transfer.reason.codes">
+            <field name="description">Importación</field>
+            <field name="code">08</field>
+        </record>
+        <record id="transfer_reason_codes_09" model="transfer.reason.codes">
+            <field name="description">Exportación</field>
+            <field name="code">09</field>
+        </record>
+
+        <record id="transfer_reason_codes_19" model="transfer.reason.codes">
+            <field name="description">Translado a zona primaria</field>
+            <field name="code">19</field>
+        </record>
+
+        <record id="transfer_reason_codes_13" model="transfer.reason.codes">
+            <field name="description">Otros</field>
+            <field name="code">13</field>
+        </record>
+
+    </data>
+</odoo>

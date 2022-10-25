@@ -1,0 +1,717 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="external_layout_stock_picking_classic">
+            <div t-attf-class="header o_company_#{o.company_id.id}_layout" t-att-style="report_header_style">
+                <div class="o_clean_header">
+                    <div class="print-container-invoice-classic-header">
+                        <table class="table-print-invoice-classic-header">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="width:20%;">
+                                        <div style="width: 180px; height: 120px; margin: 20px 30px 20px 10px; ">
+                                            <t t-if="o.company_id.logo">
+                                                <img class="logo" style="width: 100%" t-if="o.company_id.logo"
+                                                     t-att-src="image_data_uri(o.company_id.logo)" alt="Logo"/>
+                                            </t>
+                                        </div>
+
+                                    </td>
+                                    <td style="vertical-align: top;width:50%;">
+
+                                        <div class="info">
+                                            <div>
+                                                <t t-if="o.company_id.name" style="font-size:15px;">
+                                                    <span t-esc="o.company_id.name" style="font-weight:bold;"/>
+                                                </t>
+                                            </div>
+                                            <div>
+                                                <span style="font-weight:normal;">Dirección:</span>
+                                                <t t-if="o.company_id.street.title()">
+                                                    <span t-esc="o.company_id.street.title()"
+                                                          style="font-weight:normal;"/>
+                                                    -
+                                                </t>
+                                                <t t-if="o.company_id.state_id.name">
+                                                    <span t-esc="o.company_id.state_id.name"
+                                                          style="font-weight:normal;"/>
+                                                    -
+                                                </t>
+                                                <t t-if="o.company_id.country_id.name">
+                                                    <span t-esc="o.company_id.country_id.name"
+                                                          style="font-weight:normal;"/>
+                                                </t>
+                                            </div>
+                                            <div>
+                                                <span style="font-weight:normal;">Contacto:</span>
+                                                <t t-if="o.company_id.phone">
+                                                    <span t-esc="o.company_id.phone" style="font-weight:normal;"/>
+                                                </t>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td style="width:30%;vertical-align:top;">
+                                        <p class="ruc">
+                                            <t t-if="o.company_id.vat">
+                                                <span style="font-weight:bold;">RUC:</span>
+                                                <span t-esc="o.company_id.vat" style="font-weight:bold;"/>
+                                            </t>
+                                            <br/>
+                                            <span style="font-weight:bold;letter-spacing: -1.5px;">GU&#205;A DE REMISIÓN
+                                                -
+                                                REMITENTE ELECTR&#211;NICA
+                                            </span>
+                                            <br/>
+                                            <t t-if="o.name">
+                                                <span style="font-weight:bold;">N°</span>
+                                                <span t-esc="o.picking_number" style="font-weight:bold;"/>
+                                            </t>
+                                        </p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="article doc_report_layout_standard" t-att-data-oe-model="o and o._name"
+                 t-att-data-oe-id="o and o.id"
+                 t-att-data-oe-lang="o and o.env.context.get('lang')">
+                <t t-raw="0"/>
+            </div>
+            <div t-attf-class="footer o_background_footer">
+                <div style="width:100%">
+                    <div style="width: 50%;height: 100px;float: right;">
+                        <div style="text-align: center;word-spacing: 1px;">
+                            <br/>______________________________
+                            <br/>
+                            <span>Responsable</span>
+                        </div>
+
+                    </div>
+                    <div style="width: 50%;height: 100px;float: left;">
+                        <div style="text-align: center;word-spacing: 1px;">
+                            <br/>_____________________________
+                            <br/>
+                            <span>Receptor</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center" style="margin-top: 10px;">
+                    <div t-if="report_type == 'pdf'" class="text-muted">
+                        Esta es la página N°
+                        <span class="page"/>
+                        de
+                        <span class="topage"/>
+                        páginas que contiene esta factura en total
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <template id="report_stock_picking_classic_document">
+            <t t-call="l10n_pe_classic_format_picking.external_layout_stock_picking_classic">
+                <t t-set="new_partner" t-value="o.customer_id or False"/>
+                <t t-if="new_partner">
+                    <t t-set="partner"
+                       t-value="o.customer_id or (o.move_lines and o.move_lines[0].partner_id) or False"/>
+                </t>
+                <t t-else="">
+                    <t t-set="partner"
+                       t-value="o.partner_id or (o.move_lines and o.move_lines[0].partner_id) or False"/>
+                </t>
+                <div class="page">
+                    <div name="client_data">
+                        <div class="client_data_1">
+                            <table>
+                                <tr style="width:100%;">
+                                    <td style="width:7%;">
+                                        <strong style="margin-left:3px;">SEÑOR(ES)</strong>
+                                    </td>
+                                    <td style="width:2%;text-align:left;">
+                                        <strong style="font-weight:800;">:</strong>
+                                    </td>
+                                    <td style="padding-left:3px;width:60%;">
+                                        <t t-if="o.partner_id.parent_id">
+                                            <t t-esc="o.partner_id.parent_id.name"/>
+                                        </t>
+                                        <t t-else="">
+                                            <t t-esc="o.partner_id.name"/>
+                                        </t>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-left:3px;">
+                                        <t t-if="o.partner_id.l10n_latam_identification_type_id">
+                                            <strong t-esc="o.partner_id.l10n_latam_identification_type_id.name"/>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-if="o.partner_id.l10n_latam_identification_type_id">
+                                            <strong style="font-weight:800;">:</strong>
+                                        </t>
+                                    </td>
+                                    <td style="padding-left:3px;">
+                                        <t t-if="o.partner_id.vat" t-esc="o.partner_id.vat"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-left:3px;">
+                                        <strong>TIPO Y N° COMPROBANTE</strong>
+                                    </td>
+                                    <td>
+                                        <strong style="font-weight:800;">:</strong>
+                                    </td>
+                                    <td style="padding-left:3px;">
+                                        <t t-if="o.transfer_document_type_id.name"
+                                           t-esc="o.transfer_document_type_id.name"/>
+                                        <t t-if="o.serie_transfer_document" t-esc="o.serie_transfer_document"/>
+
+                                        <t t-if="o.number_transfer_document">
+                                            -
+                                            <t t-esc="o.number_transfer_document"/>
+                                        </t>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="client_data_2">
+                            <table>
+                                <tr style="width:100%;">
+                                    <td style="padding-left:3px;width:40%;">
+                                        <strong>FECHA DE EMISIÓN</strong>
+                                    </td>
+                                    <td style="width:2%;text-align:left;">
+                                        <strong style="font-weight:800;">:</strong>
+                                    </td>
+                                    <td style="padding-left:3px;">
+                                        <span t-if="o.date_done" t-field="o.date_done"
+                                              t-options="{'format': 'dd/MM/yyyy'}"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-left:3px;">
+                                        <strong>FECHA DE TRASLADO</strong>
+                                    </td>
+                                    <td>
+                                        <strong style="font-weight:800;">:</strong>
+                                    </td>
+                                    <td style="padding-left:3px;">
+                                        <span t-if="o.transfer_start_date" t-field="o.transfer_start_date"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-left:3px;">
+                                        <strong>ORDEN/REFERENCIA</strong>
+                                    </td>
+                                    <td>
+                                        <strong style="font-weight:800;">:</strong>
+                                    </td>
+                                    <td style="padding-left:3px;">
+                                        <t t-if="o.origin" t-esc="o.origin"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-left:3px;">
+                                        <strong>MOTIVO DE TRASLADO</strong>
+                                    </td>
+                                    <td>
+                                        <strong style="font-weight:800;">:</strong>
+                                    </td>
+                                    <td style="padding-left:3px;">
+                                        <t t-if="o.transfer_reason_id.description"
+                                           t-esc="o.transfer_reason_id.description"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="client_data_3">
+                            <table>
+                                <tr style="width:100%;">
+                                    <td style="padding-left:3px;width:25%;">
+                                        <strong>PUNTO DE PARTIDA</strong>
+                                    </td>
+                                    <td style="width:2%;text-align:left;">
+                                        <strong style="font-weight:800;">:</strong>
+                                    </td>
+                                    <td style="padding-left:3px;">
+                                        <span t-if="o.picking_type_id.warehouse_id.partner_id"
+                                              t-esc="o.picking_type_id.warehouse_id.partner_id.get_structured_address().title()"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-left:3px;">
+                                        <strong>PUNTO DE LLEGADA</strong>
+                                    </td>
+                                    <td>
+                                        <strong style="font-weight:800;">:</strong>
+                                    </td>
+                                    <td style="padding-left:3px;">
+                                        <span t-if="partner" t-esc="partner.get_structured_address().title()"/>
+                                    </td>
+                                </tr>
+
+                            </table>
+
+                        </div>
+                    </div>
+                    <div style="clear:left;">
+                        <br/>
+                    </div>
+                    <!--            Native          -->
+                    <!--                    1ERA TABLE -->
+                    <t t-if="o.state!='done'">
+                        <div name="header_data" class="data_header_1">
+                            <table class="table_data_header_1">
+                                <tr>
+                                    <th style="width:10%;text-align:center;">
+                                        <span>ITM</span>
+                                    </th>
+                                    <th name="th_quantity" style="width:45%;text-align:left;">
+                                        <span>Producto</span>
+                                    </th>
+                                    <th name="th_description" style="width:15%;text-align:center;">
+                                        <span>Cant.</span>
+                                    </th>
+                                    <th style="width:15%;text-align:center;">
+                                        <span>Udm</span>
+                                    </th>
+                                    <th name="th_priceunit" style="width:15%;text-align:right;">
+                                        <span>Peso</span>
+                                    </th>
+                                </tr>
+                            </table>
+                        </div>
+                        <table class="table_data_product_1">
+                            <t t-set="weight_total_0" t-value="0.0"/>
+                            <t t-set="add_line" t-value="0"/>
+                            <t t-set="move_line_ids_index" t-value="1"/>
+                            <t t-set="lines" t-value="o.move_lines.filtered(lambda x: x.product_uom_qty)"/>
+                            <tr t-foreach="lines" t-as="move">
+                                <t t-set="weight_0" t-value="0.0"/>
+                                <t t-set="weight_0" t-value="move.product_uom_qty*move.product_id.weight"/>
+                                <td style="width:10%;text-align:center;">
+                                    <span t-esc="move_line_ids_index"/>
+                                </td>
+                                <td style="width:45%;text-align:left;">
+                                    <span t-field="move.product_id"/>
+                                    <t t-if="move.description_picking != move.product_id.name">
+                                        <span t-esc="move.description_picking"/>
+                                    </t>
+                                </td>
+                                <td style="width:15%;text-align: right;">
+                                    <span t-field="move.product_uom_qty"/>
+                                </td>
+                                <td style="width:15%;text-align:center;">
+                                    <span t-field="move.product_uom"/>
+                                </td>
+                                <td style="width:15%;text-align:right;">
+                                    <span t-esc="round(weight_0, 3)"/>
+                                </td>
+                                <t t-set="move_line_ids_index" t-value="move_line_ids_index+1"/>
+                                <t t-set="weight_total_0" t-value="weight_total_0+weight_0"/>
+                                <t t-set="add_line" t-value="add_line+1"/>
+                            </tr>
+
+                            <t t-if="add_line and add_line &#60; 10">
+                                <t t-foreach="10-add_line" t-as="print_line">
+                                    <t t-if="add_line%2!=0">
+                                        <tr class="par_lines_ext">
+                                            <td colspan="5">
+                                                <strong>&#8193;</strong>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                    <t t-else="">
+                                        <tr class="par_lines_ext">
+                                            <td colspan="5">
+                                                <strong>&#8193;</strong>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </t>
+                            </t>
+                        </table>
+                        <table style="width:100%;">
+                            <tr>
+                                <td colspan="3"></td>
+                                <td style="width:15%;text-align:right;">
+                                    <strong>Peso T.</strong>
+                                </td>
+                                <td style="width:15%;text-align:right;">
+                                    <span t-esc="float(weight_total_0)" t-options='{"widget": "float", "decimal_precision": "Stock Weight"}'/>
+                                </td>
+                            </tr>
+                        </table>
+                    </t>
+
+                    <!--                    2DA TABLE-->
+                    <t t-if="o.move_line_ids and o.state=='done'">
+                        <t t-set="has_serial_number" t-value="False"/>
+                        <!--                        return a list of lot_id-->
+                        <t t-set="has_serial_number" t-value="o.move_line_ids.mapped('lot_id')"
+                           groups="stock.group_lot_on_delivery_slip"/>
+                        <table name="stock_move_table"
+                               style="width:100%;border-collapse:separate;background:#EEEEEE;border:2px solid #D7D7D7;border-radius:10px;font-size:16px;margin-bottom:15px;">
+                            <tr>
+                                <td style="width: 6%;text-align:center;font-weight:bold;">
+                                    <span>ITM</span>
+                                </td>
+                                <td style="width: 44%;text-align:left;font-weight:bold;" name="th_quantity">
+                                    <span>Producto</span>
+                                </td>
+                                <t t-if="has_serial_number" name="lot_serial">
+                                    <td style="width:12.5%;font-weight:bold;text-align-center;">
+                                        <span>Lot/Serial Number</span>
+                                    </td>
+                                </t>
+                                <td style="width: 12.5%;text-align:left;font-weight:bold;" name="th_description">
+                                    <span>Cant.</span>
+                                </td>
+                                <td style="width: 10%;text-align:center;font-weight:bold;">
+                                    <span>Udm</span>
+                                </td>
+                                <td style="width: 15%;text-align:right;font-weight:bold;" name="th_priceunit">
+                                    <span>Peso</span>
+                                </td>
+                            </tr>
+                        </table>
+                        <table class="table_data_product2">
+                            <t t-set="has_serial_number" t-value="False"/>
+                            <!--      return a list of lot_id-->
+                            <t t-set="has_serial_number" t-value="o.move_line_ids.mapped('lot_id')"
+                               groups="stock.group_lot_on_delivery_slip"/>
+
+                            <!-- This part gets complicated with different use cases (additional use cases in extensions of this report):
+                                    1. If serial numbers are used and set to print on delivery slip => print lines as is, otherwise group them by overlapping
+                                        product + description + uom combinations
+                                    2. If any packages are assigned => split products up by package (or non-package) and then apply use case 1 -->
+                            <!-- If has destination packages => create sections of corresponding products -->
+                            <t t-set="move_line_ids_index" t-value="1"/>
+                            <t t-set="add_line" t-value="0"/>
+                            <t t-set="weight_total" t-value="0.0"/>
+
+                            <t t-if="o.has_packages" name="has_packages">
+                                <t t-set="packages" t-value="o.move_line_ids.mapped('result_package_id')"/>
+                                <t t-set="add_line" t-value="0"/>
+                                <t t-foreach="packages" t-as="package">
+                                    <t t-call="stock.stock_report_delivery_package_section_line"/>
+                                    <t t-set="package_move_lines"
+                                       t-value="o.move_line_ids.filtered(lambda l: l.result_package_id == package)"/>
+                                    <!-- If printing lots/serial numbers => keep products in original lines -->
+                                    <t t-if="has_serial_number">
+                                        <t t-set="add_line" t-value="0"/>
+                                        <tr t-foreach="package_move_lines" t-as="move_line">
+                                            <t t-set="weight_total"
+                                               t-value="weight_total+(move_line.qty_done*move_line.qty_done)"/>
+                                            <t t-call="l10n_pe_classic_format_picking.stock_report_delivery_has_serial_move_line_1"/>
+                                            <!-- line_index + 1  -->
+                                            <t t-set="add_line" t-value="add_line+1"/>
+
+                                        </tr>
+                                        <t t-call="l10n_pe_classic_format_picking.add_lines_template"/>
+                                    </t>
+                                    <!-- If not printing lots/serial numbers => merge lines with same product+description+uom -->
+                                    <t t-else="">
+                                        <t t-set="aggregated_lines"
+                                           t-value="package_move_lines._get_aggregated_product_quantities()"/>
+                                        <t t-foreach="aggregated_lines" t-as="line">
+                                            <t t-set="weight_sub" t-value="0"/>
+                                            <t t-set="weight_sub"
+                                               t-value="aggregated_lines[line]['qty_done']*aggregated_lines[line]['weight']"/>
+                                            <t t-set="weight_total" t-value="weight_total+weight_sub"/>
+                                        </t>
+                                        <t t-call="l10n_pe_classic_format_picking.stock_report_delivery_aggregated_move_lines_1"/>
+                                    </t>
+                                </t>
+                                <!-- Make sure we do another section for package-less products if they exist -->
+                                <t t-set="move_lines"
+                                   t-value="o.move_line_ids.filtered(lambda l: not l.result_package_id)"/>
+                                <t t-if="move_lines" name="no_package_move_lines">
+                                    <t t-call="stock.stock_report_delivery_no_package_section_line"
+                                       name="no_package_section"/>
+                                    <t t-if="has_serial_number">
+                                        <t t-set="add_line" t-value="0"/>
+                                        <tr t-foreach="move_lines" t-as="move_line">
+                                            <t t-set="weight_total"
+                                               t-value="weight_total+(move_line.qty_done*move_line.qty_done)"/>
+                                            <t t-call="l10n_pe_classic_format_picking.stock_report_delivery_has_serial_move_line_1"/>
+                                            <!-- line_index + 1  -->
+                                            <t t-set="add_line" t-value="add_line+1"/>
+                                        </tr>
+                                        <t t-call="l10n_pe_classic_format_picking.add_lines_template"/>
+                                    </t>
+                                    <t t-else="">
+                                        <t t-set="aggregated_lines"
+                                           t-value="move_lines._get_aggregated_product_quantities()"/>
+                                        <t t-if="aggregated_lines">
+                                            <t t-foreach="aggregated_lines" t-as="line">
+                                                <t t-set="weight_sub" t-value="0"/>
+                                                <t t-set="weight_sub"
+                                                   t-value="aggregated_lines[line]['qty_done']*aggregated_lines[line]['weight']"/>
+                                                <t t-set="weight_total" t-value="weight_total+weight_sub"/>
+                                            </t>
+                                            <t t-call="l10n_pe_classic_format_picking.stock_report_delivery_aggregated_move_lines_1"/>
+                                        </t>
+                                    </t>
+                                </t>
+                            </t>
+                            <!-- No destination packages -->
+                            <t t-else="">
+                                <!-- If printing lots/serial numbers => keep products in original lines -->
+                                <t t-if="has_serial_number">
+                                    <t t-set="add_line" t-value="0"/>
+                                    <tr t-foreach="o.move_line_ids" t-as="move_line">
+                                        <t t-set="weight_total"
+                                           t-value="weight_total+(move_line.qty_done*move_line.qty_done)"/>
+                                        <t t-call="l10n_pe_classic_format_picking.stock_report_delivery_has_serial_move_line_1"/>
+                                        <!-- line_index + 1  -->
+                                        <t t-set="add_line" t-value="add_line+1"/>
+                                    </tr>
+                                    <t t-call="l10n_pe_classic_format_picking.add_lines_template"/>
+                                </t>
+                                <!-- If not printing lots/serial numbers => merge lines with same product -->
+                                <t t-else="" name="aggregated_move_lines">
+                                    <t t-set="aggregated_lines"
+                                       t-value="o.move_line_ids._get_aggregated_product_quantities()"/>
+                                    <t t-foreach="aggregated_lines" t-as="line">
+                                        <t t-set="weight_sub" t-value="0"/>
+                                        <t t-set="weight_sub"
+                                           t-value="aggregated_lines[line]['qty_done']*aggregated_lines[line]['weight']"/>
+                                        <t t-set="weight_total" t-value="weight_total+weight_sub"/>
+                                    </t>
+                                    <t t-call="l10n_pe_classic_format_picking.stock_report_delivery_aggregated_move_lines_1"/>
+                                </t>
+                            </t>
+                        </table>
+
+                        <table style="width:100%;">
+                            <tr>
+                                <t t-if="has_serial_number">
+                                    <td colspan="4"></td>
+                                    <td style="width:15%;text-align:right;">
+                                        <strong>Peso T.</strong>
+                                    </td>
+                                    <td style="width:15%;text-align:right;">
+                                        <span t-esc="weight_total"/>
+                                    </td>
+                                </t>
+                                <t t-else="">
+                                    <td colspan="3"></td>
+                                    <td style="width:15%;text-align:right;">
+                                        <strong>Peso T.</strong>
+                                    </td>
+                                    <td style="width:15%;text-align:right;">
+                                        <span t-esc="weight_total"/>
+                                    </td>
+                                </t>
+                            </tr>
+                        </table>
+                    </t>
+                    <div style="clear:left;">
+                        <br/>
+                    </div>
+                    <div>
+                        <div class="container-table-stock-classic-footer">
+                            <table>
+                                <tr style="width:100%;">
+                                    <td style="padding-left:3px;width:15%;">
+                                        <strong>TRANSPORTISTA</strong>
+                                    </td>
+                                    <td style="width:2%;text-align:left;">
+                                        <strong style="font-weight:800;">:</strong>
+                                    </td>
+                                    <td style="padding-left:3px;">
+                                        <t t-if="o.carrier_partner_id">
+                                            <t t-esc="o.carrier_partner_id.name"/>
+                                            <t t-if="o.carrier_partner_id.vat">
+                                                con
+                                                <t t-esc="o.carrier_partner_id.l10n_latam_identification_type_id.name"/>
+                                                N°:
+                                                <t t-esc="o.carrier_partner_id.vat"/>
+                                            </t>
+                                        </t>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-left:3px;">
+                                        <strong>CONDUCTOR</strong>
+                                    </td>
+                                    <td>
+                                        <strong style="font-weight:800;">:</strong>
+                                    </td>
+                                    <td style="padding-left:3px;">
+                                        <t t-if="o.driver_id">
+                                            <t t-esc="o.driver_id.name"/>
+                                            <t t-if="o.driver_id.vat">
+                                                con
+                                                <t t-esc="o.driver_id.l10n_latam_identification_type_id.name"/>
+                                                N°:
+                                                <t t-esc="o.driver_id.vat"/>
+                                            </t>
+                                            <t t-if="o.driver_id.number_license">
+                                                y con N° de Licencia
+                                                <t t-esc="o.driver_id.number_license"/>
+                                            </t>
+                                        </t>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-left:3px;">
+                                        <strong>N° DE PLACA</strong>
+                                    </td>
+                                    <td>
+                                        <strong style="font-weight:800;">:</strong>
+                                    </td>
+                                    <td style="padding-left:3px;">
+                                        <t t-if="o.transport_means" t-esc="o.transport_means"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="image_qr_code_stock_classic">
+                            <img style="margin-top:20px;margin-bottom:20px;"
+                                 t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('QR', o.create_data_qr_code(), 100, 100)"/>
+                        </div>
+                    </div>
+                    <t t-if="o.note">
+                        <div style="clear:left;">
+                            <div>
+                                <strong>OBSERVACIONES/NOTA</strong>
+                            </div>
+                            <div>
+                                <span t-field="o.note"/>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </t>
+        </template>
+
+        <template id="stock_report_delivery_has_serial_move_line_1">
+            <t t-set="weight_1" t-value="0"/>
+            <t t-set="weight_1" t-value="move_line.qty_done*move_line.qty_done"/>
+            <td style="text-align:center;">
+                <span t-esc="move_line_ids_index"/>
+            </td>
+            <td style="text-align:left;">
+                <span t-field="move_line.product_id"/>
+                <!-- this is an annoying workaround for the multiple types of descriptions (often auto-filled) that we do not want to print -->
+                <!-- this makes it so we can pre-filter the descriptions in inherited templates since we cannot extend the standard "if" condition -->
+                <!-- let's agree that pre-filtered descriptions will be set to "" -->
+                <t t-if="not description and description != ''">
+                    <t t-set="description" t-value="move_line.move_id.description_picking"/>
+                </t>
+                <p t-if="description !='' and description != move_line.product_id.name">
+                    <span t-esc="description"/>
+                </p>
+            </td>
+            <t t-if="has_serial_number" style="text-align:center;" name="move_line_lot">
+                <td>
+                    <span t-field="move_line.lot_id.name"/>
+                </td>
+            </t>
+            <td style="text-align:right;" name="move_line_lot_qty_done">
+                <span t-field="move_line.qty_done"/>
+            </td>
+            <td style="text-align:center;">
+                <span t-field="move_line.product_uom_id"/>
+            </td>
+            <td style="text-align:right;">
+                <span t-esc="round(weight_1, 3)"/>
+            </td>
+            <!-- line + 1  -->
+            <t t-set="move_line_ids_index" t-value="move_line_ids_index+1"/>
+        </template>
+
+        <template id="stock_report_delivery_aggregated_move_lines_1">
+            <t t-set="add_line" t-value="0"/>
+            <tr t-foreach="aggregated_lines" t-as="line">
+                <t t-set="weight_2" t-value="0"/>
+                <t t-set="weight_2" t-value="aggregated_lines[line]['qty_done']*aggregated_lines[line]['weight']"/>
+                <td style="text-align:center;">
+                    <span t-esc="move_line_ids_index"/>
+                </td>
+                <td style="text-align:left;">
+                    <span t-esc="aggregated_lines[line]['name']"/>
+                    <p t-if="aggregated_lines[line]['description']">
+                        <span t-esc="aggregated_lines[line]['description']"/>
+                    </p>
+                </td>
+                <td style="text-align:right;" name="move_line_aggregated_qty_done">
+                    <span t-esc="aggregated_lines[line]['qty_done']"/>
+                </td>
+                <td style="text-align:center;">
+                    <span t-esc="aggregated_lines[line]['product_uom']"/>
+                </td>
+                <td style="text-align:right;">
+                    <span t-esc="round(weight_2, 3)"/>
+                </td>
+                <!-- line + 1  -->
+                <t t-set="move_line_ids_index" t-value="move_line_ids_index+1"/>
+                <t t-set="add_line" t-value="add_line+1"/>
+            </tr>
+            <t t-if="add_line &#60;10">
+                <t t-if="add_line%2!=0">
+                    <t t-foreach="10-add_line" t-as="print_line">
+                        <tr>
+                            <td colspan="5">
+                                <strong>&#8193;</strong>
+                            </td>
+                        </tr>
+                    </t>
+                </t>
+                <t t-else="">
+                    <t t-foreach="10-add_line" t-as="print_line">
+                        <tr>
+                            <td colspan="5">
+                                <strong>&#8193;</strong>
+                            </td>
+                        </tr>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <template id="add_lines_template">
+            <t t-if="add_line &#60;10">
+                <t t-if="add_line%2!=0">
+                    <t t-foreach="10-add_line" t-as="print_line">
+                        <tr>
+                            <td colspan="6">
+                                <strong>&#8193;</strong>
+                            </td>
+                        </tr>
+                    </t>
+                </t>
+                <t t-else="">
+                    <t t-foreach="10-add_line" t-as="print_line">
+                        <tr>
+                            <td colspan="6">
+                                <strong>&#8193;</strong>
+                            </td>
+                        </tr>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <template id="report_stock_picking_classic">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="l10n_pe_classic_format_picking.report_stock_picking_classic_document"
+                       t-lang="o.partner_id.lang"/>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

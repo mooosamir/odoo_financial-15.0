@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="wizard_report_financial_currency_form_view" model="ir.ui.view">
+        <field name="name">wizard.report.financial.currency.form.view</field>
+        <field name="model">wizard.report.financial.currency</field>
+        <field name="arch" type="xml">
+            <form string="Reporte Ventas">
+                <group>
+                    <group>
+                        <field name="date_start"/>
+                        <field name="xls_filename" invisible="1"/>
+                        <field name="currency_id" invisible="1"/>
+                        <field name="company_id" invisible="1"/>
+                    </group>
+                    <group>
+                        <field name="date_end"/>
+                    </group>
+                </group>
+                <field name="account_ids"
+                    domain="[('currency_id', '!=', False),('currency_id', '!=', currency_id)]">
+                    <tree editable="bottom" create="1" delete="1" >
+                        <field name="code" readonly="True"/>
+                        <field name="name" readonly="True"/>
+                        <field name="user_type_id" widget="account_hierarchy_selection" readonly="True"/>
+                        <field name="group_id" optional="hide" readonly="True"/>
+                        <field name="internal_type" invisible="1" readonly="True"/>
+                        <field name="internal_group" invisible="1" readonly="True"/>
+                        <field name="reconcile" widget="boolean_toggle" attrs="{'invisible': ['|', ('internal_type','=','liquidity'), ('internal_group', '=', 'off_balance')]}" readonly="True"/>
+                        <field name="tax_ids" optional="hide" widget="many2many_tags" readonly="True"/>
+                        <field name="tag_ids" optional="hide" widget="many2many_tags" readonly="True"/>
+                        <field name="allowed_journal_ids" optional="hide" widget="many2many_tags" readonly="True"/>
+                        <field name="currency_id" options="{'no_create': True}" groups="base.group_multi_currency" readonly="True"/>
+                        <field name="adjustment_rate" optional="hide" readonly="False"/>
+                        <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company" readonly="True"/>
+                    </tree>
+                </field>
+                <footer>
+                    <button string="Descargar en Excel" name="action_generate_excel" type="object" default_focus="1" class="oe_highlight"/>
+                    <field name="xls_binary" filename="xls_filename" readonly="1" attrs="{'invisible': ('xls_filename', '=', False)}"/>
+                    or
+                    <button string="Cancel" class="oe_link" special="cancel"/>
+                    <button string="Generar Asiento de Ajuste" name="generate_thing" type="object"  class="oe_highlight" attrs="{'invisible': [('xls_binary', '=', False)]}"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_wizard_report_financial_currency" model="ir.actions.act_window">
+        <field name="name">Notas y Anexos (excel)</field>
+        <field name="res_model">wizard.report.financial.currency</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="change_diference" name="Ajuste diferencia de Cambio" action="action_wizard_report_financial_currency" parent="account.account_reports_management_menu" sequence="5"/>
+
+</odoo>

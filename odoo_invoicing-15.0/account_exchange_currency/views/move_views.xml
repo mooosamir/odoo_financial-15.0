@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="account_move_form_view_inherit_account_exchange_currency" model="ir.ui.view">
+        <field name="name">account.move.form.view.inherit.account_exchange_currency</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account_discount_global.account_move_form_view_inherit_account_discount_global"/>
+        <field name="arch" type="xml">
+            <div name="journal_div" position="after">
+                <field name="exchange_rate"/>
+            </div>
+        </field>
+    </record>
+
+</odoo>

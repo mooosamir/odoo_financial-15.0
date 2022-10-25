@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="isc_calculation_system_01" model="isc.calculation.system">
+            <field name="description">Sistema de valor (Apéndice IV, lit. A - T.U.P IGV e ISC</field>
+            <field name="code">01</field>
+        </record>
+
+        <record id="isc_calculation_system_02" model="isc.calculation.system">
+            <field name="description">Aplicación del Monto Fijo (Apéndice IV, lit. B - T.U.O IGV e ISC)</field>
+            <field name="code">02</field>
+        </record>
+
+        <record id="isc_calculation_system_03" model="isc.calculation.system">
+            <field name="description">Sistema de Precios de Venta al Público (Apéndice IV, lit. C - T.U.O IGV e ISC)
+            </field>
+            <field name="code">03</field>
+        </record>
+
+    </data>
+</odoo>

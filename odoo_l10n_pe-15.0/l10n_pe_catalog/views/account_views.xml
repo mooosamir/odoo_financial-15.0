@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="catalogos_sunat_menu_localization"
+              name="Catálogos SUNAT"
+              parent="localization_menu.menu_localization_invoicing"
+              sequence="10"
+    />
+
+    <record id="account_tax_form_view_inherit_l10n_pe_catalog" model="ir.ui.view">
+        <field name="name">account.tax.form.view.inherit.l10n_pe_catalog</field>
+        <field name="model">account.tax</field>
+        <field name="inherit_id" ref="account.view_tax_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Localización Perú">
+                    <group string="Catalogos">
+                        <group>
+                            <field name="isc_calculation_system_id"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

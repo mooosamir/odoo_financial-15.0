@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="account_analytic_default_form_view_inherit_account_analytic_default_location" model="ir.ui.view">
+        <field name="name">account.analytic.default.form.view.inherit.account_analytic_default_location</field>
+        <field name="model">account.analytic.default</field>
+        <field name="inherit_id" ref="account.view_account_analytic_default_form"/>
+        <field name="arch" type="xml">
+            <field name="company_id" position="after">
+                <field name="origin_warehouse_id"/>
+                <field name="origin_location_id"/>
+                <field name="dest_location_id"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

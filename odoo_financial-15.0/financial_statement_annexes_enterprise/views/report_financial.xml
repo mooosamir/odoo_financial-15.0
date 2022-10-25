@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="line_caret_options_inherit_financial_statement_annexes_enterprise" inherit_id="account_reports.line_caret_options">
+        <xpath expr="//li[last()]" position="after">
+            <li t-if="line['caret_options'] == 'account.account' and line.get('account_id') and line.get('reconcile')">
+                <a role="menuitem" tabindex="-1" t-att-data-id="line['account_id']" action="open_wizard_financial" class="dropdown-item">Notas y Anexos (excel)</a>
+            </li>
+        </xpath>
+    </template>
+
+</odoo>

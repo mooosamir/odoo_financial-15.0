@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<odoo>
+
+    <template id="pe_ubl_2_1_invoice_aditional_document" inherit_id="l10n_pe_edi.pe_ubl_2_1_common">
+        <xpath expr="//*[name()='cac:Signature']" position="before">
+            <t xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"
+               xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2">
+                <t t-if="record.aditional_document_reference">
+                    <cac:AdditionalDocumentReference>
+                        <cbc:ID t-esc="record.aditional_document_reference"/>
+                        <cbc:DocumentTypeCode
+                                listAgencyName="PE:SUNAT"
+                                listName="Documento Relacionado"
+                                listURI="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo12"
+                                t-esc="str(record.related_tax_documents_code).replace('\n', '').replace(' ', '')"/>
+                    </cac:AdditionalDocumentReference>
+                </t>
+            </t>
+        </xpath>
+    </template>
+
+</odoo>
